@@ -27,7 +27,8 @@ export default function SellerDashboard() {
     location_address: '',
     city: '',
     state: '',
-    area_sqft: '',
+    length_ft: '',
+    width_ft: '',
     price: '',
     owner_name: '',
     owner_aadhaar: '',
@@ -134,9 +135,12 @@ export default function SellerDashboard() {
     }
 
     try {
+      const lengthFt = Number(formData.length_ft);
+      const widthFt = Number(formData.width_ft);
+      const areaSqft = Math.round(lengthFt * widthFt);
       const priceInRupees = parseLakhsToRupees(Number(formData.price));
       const priceInPaise = priceInRupees * 100;
-      const pricePerSqftInPaise = Math.round((priceInRupees / Number(formData.area_sqft)) * 100);
+      const pricePerSqftInPaise = Math.round((priceInRupees / areaSqft) * 100);
 
       const imagePlaceholders = plotImages.map((_, i) => `https://images.pexels.com/photos/${5000000 + i}/pexels-photo-${5000000 + i}.jpeg`);
 
@@ -153,7 +157,9 @@ export default function SellerDashboard() {
           location_address: formData.location_address,
           city: formData.city,
           state: formData.state,
-          area_sqft: Number(formData.area_sqft),
+          length_ft: lengthFt,
+          width_ft: widthFt,
+          area_sqft: areaSqft,
           price: priceInPaise,
           price_per_sqft: pricePerSqftInPaise,
           status: 'draft',
@@ -200,7 +206,8 @@ export default function SellerDashboard() {
         location_address: '',
         city: '',
         state: '',
-        area_sqft: '',
+        length_ft: '',
+        width_ft: '',
         price: '',
         owner_name: '',
         owner_aadhaar: '',
@@ -499,35 +506,62 @@ export default function SellerDashboard() {
                       </div>
                     </div>
 
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        State <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.state}
+                        onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
+                        placeholder="State name"
+                        required
+                      />
+                    </div>
+
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">
-                          State <span className="text-red-500">*</span>
+                          Length (ft) <span className="text-red-500">*</span>
                         </label>
                         <input
-                          type="text"
-                          value={formData.state}
-                          onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                          type="number"
+                          step="0.01"
+                          value={formData.length_ft}
+                          onChange={(e) => setFormData({ ...formData, length_ft: e.target.value })}
                           className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
-                          placeholder="State name"
+                          placeholder="60"
                           required
                         />
                       </div>
 
                       <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">
-                          Area (sq ft) <span className="text-red-500">*</span>
+                          Width (ft) <span className="text-red-500">*</span>
                         </label>
                         <input
                           type="number"
-                          value={formData.area_sqft}
-                          onChange={(e) => setFormData({ ...formData, area_sqft: e.target.value })}
+                          step="0.01"
+                          value={formData.width_ft}
+                          onChange={(e) => setFormData({ ...formData, width_ft: e.target.value })}
                           className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
-                          placeholder="2400"
+                          placeholder="40"
                           required
                         />
                       </div>
                     </div>
+
+                    {formData.length_ft && formData.width_ft && (
+                      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-slate-700">Calculated Area:</span>
+                          <span className="text-lg font-bold text-emerald-700">
+                            {(Number(formData.length_ft) * Number(formData.width_ft)).toLocaleString('en-IN')} sq ft
+                          </span>
+                        </div>
+                      </div>
+                    )}
 
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-2">
@@ -542,9 +576,9 @@ export default function SellerDashboard() {
                         placeholder="96"
                         required
                       />
-                      {formData.price && formData.area_sqft && (
+                      {formData.price && formData.length_ft && formData.width_ft && (
                         <p className="text-sm text-slate-600 mt-2">
-                          Price per sq ft: ₹{Math.round(parseLakhsToRupees(Number(formData.price)) / Number(formData.area_sqft)).toLocaleString('en-IN')}
+                          Price per sq ft: ₹{Math.round(parseLakhsToRupees(Number(formData.price)) / (Number(formData.length_ft) * Number(formData.width_ft))).toLocaleString('en-IN')}
                         </p>
                       )}
                     </div>

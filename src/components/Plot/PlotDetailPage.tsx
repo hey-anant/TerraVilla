@@ -178,16 +178,40 @@ export default function PlotDetailPage({ plotId, onBack }: PlotDetailPageProps) 
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-slate-50 rounded-xl p-4">
-                  <div className="flex items-center space-x-3 mb-2">
-                    <Ruler className="w-5 h-5 text-slate-600" />
-                    <span className="text-sm text-slate-600">Area</span>
+              <div className="space-y-4">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="bg-slate-50 rounded-xl p-4">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <Ruler className="w-5 h-5 text-slate-600" />
+                      <span className="text-sm text-slate-600">Length</span>
+                    </div>
+                    <div className="text-2xl font-bold text-slate-900">
+                      {plot.length_ft ? Number(plot.length_ft).toFixed(2) : 'N/A'}
+                    </div>
+                    <div className="text-sm text-slate-600">ft</div>
                   </div>
-                  <div className="text-2xl font-bold text-slate-900">
-                    {plot.area_sqft.toLocaleString('en-IN')}
+
+                  <div className="bg-slate-50 rounded-xl p-4">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <Ruler className="w-5 h-5 text-slate-600" />
+                      <span className="text-sm text-slate-600">Width</span>
+                    </div>
+                    <div className="text-2xl font-bold text-slate-900">
+                      {plot.width_ft ? Number(plot.width_ft).toFixed(2) : 'N/A'}
+                    </div>
+                    <div className="text-sm text-slate-600">ft</div>
                   </div>
-                  <div className="text-sm text-slate-600">sq ft</div>
+
+                  <div className="bg-slate-50 rounded-xl p-4">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <Ruler className="w-5 h-5 text-slate-600" />
+                      <span className="text-sm text-slate-600">Total Area</span>
+                    </div>
+                    <div className="text-2xl font-bold text-slate-900">
+                      {plot.area_sqft.toLocaleString('en-IN')}
+                    </div>
+                    <div className="text-sm text-slate-600">sq ft</div>
+                  </div>
                 </div>
 
                 <div className="bg-slate-50 rounded-xl p-4">
@@ -195,7 +219,7 @@ export default function PlotDetailPage({ plotId, onBack }: PlotDetailPageProps) 
                     <CheckCircle className="w-5 h-5 text-slate-600" />
                     <span className="text-sm text-slate-600">Owner Verified</span>
                   </div>
-                  <div className="text-2xl font-bold text-slate-900">
+                  <div className="text-xl font-bold text-slate-900">
                     {plot.owner_verified ? 'Yes' : 'Pending'}
                   </div>
                   <div className="text-sm text-slate-600">{plot.owner_name}</div>

@@ -158,14 +158,29 @@ export default function SearchPage() {
                   <span className="line-clamp-1">{plot.location_address}, {plot.city}</span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 mb-4 pb-4 border-b border-slate-100">
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Ruler className="w-4 h-4 text-slate-400" />
-                    <span className="text-slate-700">{plot.area_sqft.toLocaleString('en-IN')} sq ft</span>
+                <div className="space-y-2 mb-4 pb-4 border-b border-slate-100">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center space-x-2">
+                      <Ruler className="w-4 h-4 text-slate-400" />
+                      <span className="text-slate-600">Dimensions:</span>
+                    </div>
+                    <span className="text-slate-900 font-medium">
+                      {plot.length_ft && plot.width_ft ? `${Number(plot.length_ft).toFixed(0)} × ${Number(plot.width_ft).toFixed(0)} ft` : 'N/A'}
+                    </span>
                   </div>
-                  <div className="flex items-center space-x-2 text-sm">
-                    <IndianRupee className="w-4 h-4 text-slate-400" />
-                    <span className="text-slate-700">₹{plot.price_per_sqft.toLocaleString('en-IN')}/sq ft</span>
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center space-x-2">
+                      <Ruler className="w-4 h-4 text-slate-400" />
+                      <span className="text-slate-600">Area:</span>
+                    </div>
+                    <span className="text-slate-900 font-medium">{plot.area_sqft.toLocaleString('en-IN')} sq ft</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center space-x-2">
+                      <IndianRupee className="w-4 h-4 text-slate-400" />
+                      <span className="text-slate-600">Price/sq ft:</span>
+                    </div>
+                    <span className="text-slate-900 font-medium">₹{plot.price_per_sqft.toLocaleString('en-IN')}</span>
                   </div>
                 </div>
 
@@ -250,23 +265,30 @@ export default function SearchPage() {
                 <span>{selectedPlot.location_address}, {selectedPlot.city}, {selectedPlot.state}</span>
               </div>
 
-              <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="bg-slate-50 rounded-xl p-4 text-center">
                   <Ruler className="w-6 h-6 text-slate-600 mx-auto mb-2" />
-                  <div className="text-sm text-slate-600">Area</div>
+                  <div className="text-sm text-slate-600">Length</div>
+                  <div className="font-bold text-slate-900">
+                    {selectedPlot.length_ft ? `${Number(selectedPlot.length_ft).toFixed(2)} ft` : 'N/A'}
+                  </div>
+                </div>
+                <div className="bg-slate-50 rounded-xl p-4 text-center">
+                  <Ruler className="w-6 h-6 text-slate-600 mx-auto mb-2" />
+                  <div className="text-sm text-slate-600">Width</div>
+                  <div className="font-bold text-slate-900">
+                    {selectedPlot.width_ft ? `${Number(selectedPlot.width_ft).toFixed(2)} ft` : 'N/A'}
+                  </div>
+                </div>
+                <div className="bg-slate-50 rounded-xl p-4 text-center">
+                  <Ruler className="w-6 h-6 text-slate-600 mx-auto mb-2" />
+                  <div className="text-sm text-slate-600">Total Area</div>
                   <div className="font-bold text-slate-900">{selectedPlot.area_sqft.toLocaleString('en-IN')} sq ft</div>
                 </div>
                 <div className="bg-slate-50 rounded-xl p-4 text-center">
                   <Shield className="w-6 h-6 text-emerald-600 mx-auto mb-2" />
                   <div className="text-sm text-slate-600">Status</div>
                   <div className="font-bold text-emerald-600">Verified</div>
-                </div>
-                <div className="bg-slate-50 rounded-xl p-4 text-center">
-                  <svg className="w-6 h-6 text-slate-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                  </svg>
-                  <div className="text-sm text-slate-600">Blockchain</div>
-                  <div className="font-bold text-slate-900 text-xs truncate">{selectedPlot.blockchain_hash?.substring(0, 10)}...</div>
                 </div>
               </div>
 
