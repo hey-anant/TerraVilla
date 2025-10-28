@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Upload, Plus, FileText, CheckCircle, Clock, XCircle, Image, Shield, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { mockPlots } from '../../data/mockData';
-import { DocumentType } from '../../types';
+import { DocumentType, Plot } from '../../types';
 import { formatPriceDisplay, parseLakhsToRupees } from '../../utils/priceFormatters';
 import ListingFeePayment from '../Payment/ListingFeePayment';
+import { supabase } from '../../lib/supabase';
 
 interface DocumentUpload {
   type: DocumentType;
@@ -18,6 +18,9 @@ export default function SellerDashboard() {
   const [currentStep, setCurrentStep] = useState(1);
   const [showPayment, setShowPayment] = useState(false);
   const [pendingPlotId, setPendingPlotId] = useState<string | null>(null);
+  const [userPlots, setUserPlots] = useState<Plot[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedPlotId, setSelectedPlotId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -39,7 +42,31 @@ export default function SellerDashboard() {
     { type: 'encumbrance_certificate', file: null },
   ]);
 
-  const userPlots = mockPlots.filter(plot => plot.seller_id === user?.id);
+  useEffect(() => {
+    if (user?.id) {
+      fetchUserPlots();
+    }
+  }, [user?.id]);
+
+  const fetchUserPlots = async () => {
+    if (!user?.id) return;
+
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('plots')
+        .select('*')
+        .eq('seller_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setUserPlots(data || []);
+    } catch (error) {
+      console.error('Error fetching plots:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -92,7 +119,7 @@ export default function SellerDashboard() {
     setCurrentStep(prev => prev + 1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (plotImages.length === 0) {
@@ -106,37 +133,91 @@ export default function SellerDashboard() {
       return;
     }
 
-    setPendingPlotId('temp-' + Date.now());
-    setShowForm(false);
-    setShowPayment(true);
+    try {
+      const priceInRupees = parseLakhsToRupees(Number(formData.price));
+      const priceInPaise = priceInRupees * 100;
+      const pricePerSqftInPaise = Math.round((priceInRupees / Number(formData.area_sqft)) * 100);
+
+      const imagePlaceholders = plotImages.map((_, i) => `https://images.pexels.com/photos/${5000000 + i}/pexels-photo-${5000000 + i}.jpeg`);
+
+      const { data: plotData, error: plotError } = await supabase
+        .from('plots')
+        .insert({
+          seller_id: user?.id,
+          owner_name: formData.owner_name,
+          owner_aadhaar: formData.owner_aadhaar,
+          property_owner_name: formData.property_owner_name,
+          owner_verified: formData.owner_name.toLowerCase().trim() === formData.property_owner_name.toLowerCase().trim(),
+          title: formData.title,
+          description: formData.description,
+          location_address: formData.location_address,
+          city: formData.city,
+          state: formData.state,
+          area_sqft: Number(formData.area_sqft),
+          price: priceInPaise,
+          price_per_sqft: pricePerSqftInPaise,
+          status: 'draft',
+          verification_status: 'pending',
+          images: imagePlaceholders,
+        })
+        .select()
+        .single();
+
+      if (plotError) throw plotError;
+
+      setPendingPlotId(plotData.id);
+      setShowForm(false);
+      setShowPayment(true);
+    } catch (error) {
+      console.error('Error creating plot:', error);
+      alert('Failed to create listing. Please try again.');
+    }
   };
 
-  const handlePaymentComplete = () => {
-    alert(`Property listing created successfully!\n\nDetails:\n- ${plotImages.length} images uploaded\n- ${documents.filter(doc => doc.file !== null).length} documents uploaded\n- Owner verified: ${formData.owner_name}\n- Aadhaar: ${formData.owner_aadhaar}\n- Listing fee paid: ₹500\n\nYour listing will be verified through government database and AI checks.`);
+  const handlePaymentComplete = async () => {
+    if (!pendingPlotId) return;
 
-    setShowPayment(false);
-    setPendingPlotId(null);
-    setCurrentStep(1);
-    setFormData({
-      title: '',
-      description: '',
-      location_address: '',
-      city: '',
-      state: '',
-      area_sqft: '',
-      price: '',
-      owner_name: '',
-      owner_aadhaar: '',
-      property_owner_name: '',
-    });
-    setPlotImages([]);
-    setImagePreviews([]);
-    setDocuments([
-      { type: 'title_deed', file: null },
-      { type: 'survey_map', file: null },
-      { type: 'tax_receipt', file: null },
-      { type: 'encumbrance_certificate', file: null },
-    ]);
+    try {
+      const { error: updateError } = await supabase
+        .from('plots')
+        .update({
+          status: 'pending_verification',
+          verification_status: 'in_progress'
+        })
+        .eq('id', pendingPlotId);
+
+      if (updateError) throw updateError;
+
+      await fetchUserPlots();
+
+      setSelectedPlotId(pendingPlotId);
+      setShowPayment(false);
+      setPendingPlotId(null);
+      setCurrentStep(1);
+      setFormData({
+        title: '',
+        description: '',
+        location_address: '',
+        city: '',
+        state: '',
+        area_sqft: '',
+        price: '',
+        owner_name: '',
+        owner_aadhaar: '',
+        property_owner_name: '',
+      });
+      setPlotImages([]);
+      setImagePreviews([]);
+      setDocuments([
+        { type: 'title_deed', file: null },
+        { type: 'survey_map', file: null },
+        { type: 'tax_receipt', file: null },
+        { type: 'encumbrance_certificate', file: null },
+      ]);
+    } catch (error) {
+      console.error('Error updating plot:', error);
+      alert('Payment processed but failed to update listing status.');
+    }
   };
 
   const getStatusIcon = (status: string) => {
@@ -167,6 +248,16 @@ export default function SellerDashboard() {
     };
     return labels[type];
   };
+
+  if (selectedPlotId) {
+    const PlotDetailPage = require('../Plot/PlotDetailPage').default;
+    return (
+      <PlotDetailPage
+        plotId={selectedPlotId}
+        onBack={() => setSelectedPlotId(null)}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -609,7 +700,12 @@ export default function SellerDashboard() {
             <h2 className="font-semibold text-slate-900">My Listings ({userPlots.length})</h2>
           </div>
 
-          {userPlots.length === 0 ? (
+          {loading ? (
+            <div className="p-12 text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-4"></div>
+              <p className="text-slate-600">Loading your listings...</p>
+            </div>
+          ) : userPlots.length === 0 ? (
             <div className="p-12 text-center">
               <div className="bg-slate-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Plus className="w-10 h-10 text-slate-400" />
@@ -626,13 +722,19 @@ export default function SellerDashboard() {
           ) : (
             <div className="divide-y divide-slate-200">
               {userPlots.map((plot) => (
-                <div key={plot.id} className="p-6 hover:bg-slate-50 transition-colors">
+                <div
+                  key={plot.id}
+                  className="p-6 hover:bg-slate-50 transition-colors cursor-pointer"
+                  onClick={() => setSelectedPlotId(plot.id)}
+                >
                   <div className="flex items-start space-x-4">
-                    <img
-                      src={plot.images[0]}
-                      alt={plot.title}
-                      className="w-24 h-24 object-cover rounded-lg"
-                    />
+                    {plot.images && plot.images.length > 0 && (
+                      <img
+                        src={plot.images[0]}
+                        alt={plot.title}
+                        className="w-24 h-24 object-cover rounded-lg"
+                      />
+                    )}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
                         <div>
