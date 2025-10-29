@@ -45,9 +45,35 @@ export default function SellerDashboard() {
 
   useEffect(() => {
     if (user?.id) {
+      ensureUserExists();
       fetchUserPlots();
     }
   }, [user?.id]);
+
+  const ensureUserExists = async () => {
+    if (!user?.id) return;
+
+    try {
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('id')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (!existingUser) {
+        await supabase.from('users').insert({
+          id: user.id,
+          full_name: user.full_name,
+          email: user.email,
+          phone: user.phone,
+          kyc_status: user.kyc_status,
+          user_type: user.user_type,
+        });
+      }
+    } catch (error) {
+      console.error('Error ensuring user exists:', error);
+    }
+  };
 
   const fetchUserPlots = async () => {
     if (!user?.id) return;
