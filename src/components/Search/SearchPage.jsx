@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Search, MapPin, Ruler, IndianRupee, Filter, ChevronDown, Phone, Heart, Shield } from 'lucide-react';
 import { formatPriceDisplay } from '../../utils/priceFormatters';
 import { getAllPlots } from '../../utils/plotUtils';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 
 export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState('');

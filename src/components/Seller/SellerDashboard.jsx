@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Upload, Plus, FileText, CheckCircle, Clock, XCircle, Image, Shield, AlertTriangle } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 import { addNewPlot, getAllPlots, deletePlot, updatePlotStatus, setVerificationStatus } from '../../utils/plotUtils';
 import { formatPriceDisplay, parseLakhsToRupees } from '../../utils/priceFormatters';
 import ListingFeePayment from '../Payment/ListingFeePayment';

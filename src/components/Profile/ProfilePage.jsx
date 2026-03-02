@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { User, Phone, Mail, Shield, Upload, CheckCircle, AlertCircle } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 
 export default function ProfilePage() {
   const { user, updateProfile } = useAuth();

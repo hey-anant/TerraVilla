@@ -1,6 +1,5 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-
-const AuthContext = createContext(undefined);
+import { useEffect, useState } from 'react';
+import { AuthStateContext } from './AuthStateContext';
 
 const otpStore = {};
 
@@ -139,16 +138,8 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, verifyLoginOtp, signup, verifySignupOtp, logout, updateProfile }}>
+    <AuthStateContext.Provider value={{ user, isAuthenticated, login, verifyLoginOtp, signup, verifySignupOtp, logout, updateProfile }}>
       {children}
-    </AuthContext.Provider>
+    </AuthStateContext.Provider>
   );
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 }
