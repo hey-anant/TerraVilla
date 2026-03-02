@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Search, MapPin, Ruler, IndianRupee, Filter, ChevronDown, Phone, Heart, Shield } from 'lucide-react';
-import { Plot } from '../../types';
 import { formatPriceDisplay } from '../../utils/priceFormatters';
 import { getAllPlots } from '../../utils/plotUtils';
 import { useAuth } from '../../context/AuthContext';
@@ -11,11 +10,10 @@ export default function SearchPage() {
   const [selectedState, setSelectedState] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [selectedPlot, setSelectedPlot] = useState<Plot | null>(null);
+  const [selectedPlot, setSelectedPlot] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
   const { user } = useAuth();
 
-  // Get all plots including newly listed ones from localStorage
   const allPlots = getAllPlots().filter(plot => plot.verification_status === 'verified');
 
   const cities = Array.from(new Set(allPlots.map(p => p.city)));

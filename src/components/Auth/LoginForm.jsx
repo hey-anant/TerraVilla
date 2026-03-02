@@ -4,13 +4,13 @@ import { useAuth } from '../../context/AuthContext';
 
 export default function LoginForm() {
   const [isLogin, setIsLogin] = useState(true);
-  const [step, setStep] = useState<'credentials' | 'otp'>('credentials');
+  const [step, setStep] = useState('credentials');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [countryCode, setCountryCode] = useState('+91');
   const [phone, setPhone] = useState('');
-  const [userType, setUserType] = useState<'buyer' | 'seller' | 'both'>('buyer');
+  const [userType, setUserType] = useState('buyer');
   const [loading, setLoading] = useState(false);
   const [otpEmail, setOtpEmail] = useState('');
   const [otpPhone, setOtpPhone] = useState('');
@@ -41,14 +41,13 @@ export default function LoginForm() {
     { code: '+852', country: 'Hong Kong' },
   ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
       if (isLogin) {
-        // Step 1: Login - send OTP to email
         const result = await login(email, password);
         if (result.success && result.otpSent) {
           setStep('otp');
@@ -56,7 +55,6 @@ export default function LoginForm() {
           setError(result.message || 'Login failed');
         }
       } else {
-        // Step 1: Signup - send OTPs to email and phone
         const fullPhoneNumber = `${countryCode} ${phone}`;
         const result = await signup(email, password, fullName, fullPhoneNumber, userType);
         if (result.success && result.otpRequired) {
@@ -73,7 +71,7 @@ export default function LoginForm() {
     }
   };
 
-  const handleOtpVerification = async (e: React.FormEvent) => {
+  const handleOtpVerification = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);

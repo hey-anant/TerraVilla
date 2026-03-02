@@ -1,10 +1,6 @@
 import { Shield, TrendingDown, FileCheck, Zap, MapPin, BarChart3 } from 'lucide-react';
 
-interface LandingPageProps {
-  onViewChange: (view: string) => void;
-}
-
-export default function LandingPage({ onViewChange }: LandingPageProps) {
+export default function LandingPage({ onViewChange }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

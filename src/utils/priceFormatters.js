@@ -1,9 +1,9 @@
-export const formatPriceInLakhs = (price: number): string => {
+export const formatPriceInLakhs = (price) => {
   const lakhs = price / 100000;
   return lakhs.toFixed(2);
 };
 
-export const formatPriceDisplay = (price: number): string => {
+export const formatPriceDisplay = (price) => {
   const lakhs = price / 100000;
   if (lakhs >= 100) {
     const crores = lakhs / 100;
@@ -12,6 +12,6 @@ export const formatPriceDisplay = (price: number): string => {
   return `₹${lakhs.toFixed(2)} L`;
 };
 
-export const parseLakhsToRupees = (lakhs: number): number => {
+export const parseLakhsToRupees = (lakhs) => {
   return lakhs * 100000;
 };

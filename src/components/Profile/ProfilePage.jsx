@@ -11,7 +11,7 @@ export default function ProfilePage() {
     user_type: user?.user_type || 'buyer',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     updateProfile(formData);
     setIsEditing(false);
@@ -142,7 +142,7 @@ export default function ProfilePage() {
                     Account Type
                   </label>
                   <div className="grid grid-cols-3 gap-3">
-                    {(['buyer', 'seller', 'both'] as const).map((type) => (
+                    {['buyer', 'seller', 'both'].map((type) => (
                       <button
                         key={type}
                         type="button"

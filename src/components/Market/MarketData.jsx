@@ -3,13 +3,12 @@ import { mockPriceComparisons } from '../../data/mockData';
 import { getAllPlots } from '../../utils/plotUtils';
 
 export default function MarketData() {
-  // Get verified listings and sort by most recent first
   const recentListings = getAllPlots()
     .filter(plot => plot.status === 'verified')
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     .slice(0, 5);
 
-  const calculateTrend = (avg: number, min: number) => {
+  const calculateTrend = (avg, min) => {
     const trend = ((avg - min) / min) * 100;
     return trend.toFixed(1);
   };

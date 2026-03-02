@@ -1,12 +1,7 @@
 import { LogOut, User, Plus, Search, BarChart3 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-interface NavbarProps {
-  currentView: string;
-  onViewChange: (view: string) => void;
-}
-
-export default function Navbar({ currentView, onViewChange }: NavbarProps) {
+export default function Navbar({ currentView, onViewChange }) {
   const { user, isAuthenticated, logout } = useAuth();
 
   if (!isAuthenticated) return null;

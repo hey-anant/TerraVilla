@@ -1,14 +1,6 @@
 import { ExternalLink } from 'lucide-react';
 
-interface AdItem {
-  id: string;
-  title: string;
-  image: string;
-  link: string;
-  description: string;
-}
-
-const adItems: AdItem[] = [
+const adItems = [
   {
     id: '1',
     title: 'Premium Cement',

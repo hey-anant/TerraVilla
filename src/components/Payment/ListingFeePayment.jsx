@@ -2,23 +2,16 @@ import { useState } from 'react';
 import { CreditCard, CheckCircle, AlertCircle, Shield } from 'lucide-react';
 import { updatePlotStatus, getPlotById } from '../../utils/plotUtils';
 
-interface ListingFeePaymentProps {
-  plotId: string;
-  onPaymentComplete: () => void;
-  onCancel: () => void;
-}
-
-export default function ListingFeePayment({ plotId, onPaymentComplete, onCancel }: ListingFeePaymentProps) {
-  const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'failed'>('idle');
+export default function ListingFeePayment({ plotId, onPaymentComplete, onCancel }) {
+  const [paymentStatus, setPaymentStatus] = useState('idle');
   const listingFee = 500;
 
   const handlePayment = async () => {
     setPaymentStatus('processing');
 
     try {
-      // First, check if the plot exists and is in a valid state
       const plot = getPlotById(plotId);
-      
+
       if (!plot) {
         throw new Error('Plot not found');
       }
@@ -27,22 +20,18 @@ export default function ListingFeePayment({ plotId, onPaymentComplete, onCancel 
         throw new Error('Plot is already verified');
       }
 
-      // Simulating payment API call with setTimeout
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Update the property status to "verified" in your database
+
       const updatedPlot = updatePlotStatus(plotId, 'verified');
-      
+
       if (!updatedPlot) {
         throw new Error('Failed to update plot status');
       }
-      
+
       setPaymentStatus('success');
-      
-      // Wait for 2 seconds to show success message
+
       setTimeout(() => {
         onPaymentComplete();
-        // Redirect to the market page
         window.location.href = '/market';
       }, 2000);
     } catch (error) {

@@ -1,6 +1,4 @@
-import { Plot, PriceComparison } from '../types';
-
-export const mockPlots: Plot[] = [
+export const mockPlots = [
   {
     id: '1',
     seller_id: '1',
@@ -195,7 +193,7 @@ export const mockPlots: Plot[] = [
   },
 ];
 
-export const mockPriceComparisons: PriceComparison[] = [
+export const mockPriceComparisons = [
   {
     city: 'Bangalore',
     state: 'Karnataka',

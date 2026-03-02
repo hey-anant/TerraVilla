@@ -1,23 +1,16 @@
 import { useState } from 'react';
 import { Upload, Plus, FileText, CheckCircle, Clock, XCircle, Image, Shield, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { DocumentType } from '../../types';
 import { addNewPlot, getAllPlots, deletePlot, updatePlotStatus, setVerificationStatus } from '../../utils/plotUtils';
 import { formatPriceDisplay, parseLakhsToRupees } from '../../utils/priceFormatters';
 import ListingFeePayment from '../Payment/ListingFeePayment';
-
-interface DocumentUpload {
-  type: DocumentType;
-  file: File | null;
-  preview?: string;
-}
 
 export default function SellerDashboard() {
   const { user } = useAuth();
   const [showForm, setShowForm] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showPayment, setShowPayment] = useState(false);
-  const [pendingPlotId, setPendingPlotId] = useState<string | null>(null);
+  const [pendingPlotId, setPendingPlotId] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -32,9 +25,9 @@ export default function SellerDashboard() {
     owner_aadhaar: '',
     property_owner_name: '',
   });
-  const [plotImages, setPlotImages] = useState<File[]>([]);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [documents, setDocuments] = useState<DocumentUpload[]>([
+  const [plotImages, setPlotImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const [documents, setDocuments] = useState([
     { type: 'title_deed', file: null },
     { type: 'survey_map', file: null },
     { type: 'tax_receipt', file: null },
@@ -44,25 +37,28 @@ export default function SellerDashboard() {
   const userPlots = getAllPlots().filter((plot) => plot.seller_id === user?.id);
   const [, setRefreshCount] = useState(0);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e) => {
     const files = Array.from(e.target.files || []);
     setPlotImages(prev => [...prev, ...files]);
 
     files.forEach(file => {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreviews(prev => [...prev, reader.result as string]);
+        const result = reader.result;
+        if (typeof result === 'string') {
+          setImagePreviews(prev => [...prev, result]);
+        }
       };
       reader.readAsDataURL(file);
     });
   };
 
-  const removeImage = (index: number) => {
+  const removeImage = (index) => {
     setPlotImages(prev => prev.filter((_, i) => i !== index));
     setImagePreviews(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleDocumentUpload = (index: number, file: File) => {
+  const handleDocumentUpload = (index, file) => {
     const newDocuments = [...documents];
     newDocuments[index].file = file;
     setDocuments(newDocuments);
@@ -95,7 +91,7 @@ export default function SellerDashboard() {
     setCurrentStep(prev => prev + 1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (plotImages.length === 0) {
@@ -109,9 +105,8 @@ export default function SellerDashboard() {
       return;
     }
 
-    // Create a new plot in mock data
     const newPlot = addNewPlot({
-      seller_id: user?.id || '1', // Use actual user ID if available
+      seller_id: user?.id || '1',
       seller_name: formData.owner_name,
       seller_phone: user?.phone || '',
       owner_name: formData.owner_name,
@@ -140,17 +135,16 @@ export default function SellerDashboard() {
   const handlePaymentComplete = () => {
     alert(`Property listing created successfully!\n\nDetails:\n- ${plotImages.length} images uploaded\n- ${documents.filter(doc => doc.file !== null).length} documents uploaded\n- Owner verified: ${formData.owner_name}\n- Aadhaar: ${formData.owner_aadhaar}\n- Listing fee paid: ₹500\n\nYour listing will be verified through government database and AI checks.`);
 
-    // Mark the pending plot as verified after payment
     if (pendingPlotId) {
       try {
         updatePlotStatus(pendingPlotId, 'verified');
-      } catch (err) {
-        // ignore
+      } catch (error) {
+        void error;
       }
       try {
         setVerificationStatus(pendingPlotId, 'verified');
-      } catch (err) {
-        // ignore
+      } catch (error) {
+        void error;
       }
     }
 
@@ -181,7 +175,7 @@ export default function SellerDashboard() {
     ]);
   };
 
-  const getStatusIcon = (status: string) => {
+  const getStatusIcon = (status) => {
     switch (status) {
       case 'verified':
         return <CheckCircle className="w-5 h-5 text-emerald-600" />;
@@ -194,12 +188,12 @@ export default function SellerDashboard() {
     }
   };
 
-  const getStatusText = (status: string) => {
+  const getStatusText = (status) => {
     return status.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   };
 
-  const getDocumentLabel = (type: DocumentType) => {
-    const labels: Record<DocumentType, string> = {
+  const getDocumentLabel = (type) => {
+    const labels = {
       title_deed: 'Title Deed',
       survey_map: 'Survey Map',
       tax_receipt: 'Property Tax Receipt',
@@ -210,7 +204,7 @@ export default function SellerDashboard() {
     return labels[type];
   };
 
-  const handleDelete = (plotId: string) => {
+  const handleDelete = (plotId) => {
     const confirmed = window.confirm('Are you sure you want to delete this listing? This action cannot be undone.');
     if (!confirmed) return;
     const ok = deletePlot(plotId);
@@ -730,7 +724,6 @@ export default function SellerDashboard() {
                           <p className="text-sm text-slate-600">{plot.location_address}, {plot.city}</p>
                         </div>
                         <div className="flex items-center space-x-3">
-                          {/* Hide the 'Pending' verification text/icon as requested; show only when verified or rejected */}
                           {plot.verification_status !== 'pending' && (
                             <div className="flex items-center space-x-2">
                               {getStatusIcon(plot.verification_status)}
