@@ -20,4 +20,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Sensitive data and environment variables
 .env
+.env.*
+!.env.example
+*.key
+*.pem
+credentials.json
