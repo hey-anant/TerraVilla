@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { CreditCard, CheckCircle, AlertCircle, Shield } from 'lucide-react';
 import { updatePlotStatus, getPlotById } from '../../utils/plotUtils';
-
 export default function ListingFeePayment({ plotId, onPaymentComplete, onCancel }) {
     const [paymentStatus, setPaymentStatus] = useState('idle');
     const listingFee = 500;
@@ -37,49 +36,6 @@ export default function ListingFeePayment({ plotId, onPaymentComplete, onCancel 
         }
     };
     return (<div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-
-
-export default function ListingFeePayment({ plotId, onPaymentComplete, onCancel }) {
-  const [paymentStatus, setPaymentStatus] = useState('idle');
-  const listingFee = 500;
-
-  const handlePayment = async () => {
-    setPaymentStatus('processing');
-
-    try {
-      const plot = getPlotById(plotId);
-
-      if (!plot) {
-        throw new Error('Plot not found');
-      }
-
-      if (plot.status === 'verified') {
-        throw new Error('Plot is already verified');
-      }
-
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      const updatedPlot = updatePlotStatus(plotId, 'verified');
-
-      if (!updatedPlot) {
-        throw new Error('Failed to update plot status');
-      }
-
-      setPaymentStatus('success');
-
-      setTimeout(() => {
-        onPaymentComplete();
-        window.location.href = '/market';
-      }, 2000);
-    } catch (error) {
-      setPaymentStatus('failed');
-      console.error('Payment failed:', error);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-
       <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
         {paymentStatus === 'idle' && (<>
             <div className="text-center mb-6">

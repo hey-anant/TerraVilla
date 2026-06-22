@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { AuthProvider } from './context/AuthProvider';
-import { useAuth } from './context/useAuth';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import LoginForm from './components/Auth/LoginForm';
 import LandingPage from './components/Home/LandingPage';
