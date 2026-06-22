@@ -1,5 +1,5 @@
 export const mockPlots = [
-<<<<<<< HEAD
+
     {
         id: '1',
         seller_id: '1',
@@ -234,7 +234,7 @@ export const mockPriceComparisons = [
         sample_size: 38,
         last_updated: '2025-10-08T00:00:00Z',
     },
-=======
+
   {
     id: '1',
     seller_id: '1',
@@ -470,5 +470,5 @@ export const mockPriceComparisons = [
     sample_size: 38,
     last_updated: '2025-10-08T00:00:00Z',
   },
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 ];

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-<<<<<<< HEAD
+
 import { User, Phone, Mail, Shield, Upload, CheckCircle, AlertCircle, XCircle, Lock, KeyRound } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -156,7 +156,7 @@ export default function ProfilePage() {
   const handleKYCUpload = () => {
     updateProfile({ kyc_status: 'verified' });
     alert('KYC documents submitted. Status set to verified!');
-=======
+
 import { User, Phone, Mail, Shield, Upload, CheckCircle, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/useAuth';
 
@@ -178,12 +178,12 @@ export default function ProfilePage() {
   const handleKYCUpload = () => {
     alert('KYC document upload functionality would be implemented here. In production, this would integrate with document verification services.');
     updateProfile({ kyc_status: 'verified' });
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
   };
 
   return (
     <div className="min-h-screen bg-slate-50">
-<<<<<<< HEAD
+
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         
         {/* Profile Card Banner */}
@@ -191,13 +191,13 @@ export default function ProfilePage() {
           <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-8 py-12">
             <div className="flex items-center space-x-6">
               <div className="bg-white w-24 h-24 rounded-full flex items-center justify-center shadow-inner">
-=======
+
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-8 py-12">
             <div className="flex items-center space-x-6">
               <div className="bg-white w-24 h-24 rounded-full flex items-center justify-center">
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
                 <User className="w-12 h-12 text-emerald-600" />
               </div>
               <div className="text-white">
@@ -208,10 +208,10 @@ export default function ProfilePage() {
           </div>
 
           <div className="p-8">
-<<<<<<< HEAD
+
             {/* KYC status blocks */}
-=======
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
+
             {user?.kyc_status === 'pending' && (
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-8">
                 <div className="flex items-start space-x-4">
@@ -223,14 +223,14 @@ export default function ProfilePage() {
                     <p className="text-amber-800 text-sm mb-4">
                       Upload a government-issued ID to verify your identity and unlock all platform features.
                     </p>
-<<<<<<< HEAD
+
                     <button onClick={handleKYCUpload} className="bg-amber-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-amber-700 transition-colors flex items-center space-x-2">
-=======
+
                     <button
                       onClick={handleKYCUpload}
                       className="bg-amber-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-amber-700 transition-colors flex items-center space-x-2"
                     >
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
                       <Upload className="w-4 h-4" />
                       <span>Upload KYC Document</span>
                     </button>
@@ -253,7 +253,7 @@ export default function ProfilePage() {
               </div>
             )}
 
-<<<<<<< HEAD
+
             {/* Profile Info Details header */}
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-slate-900">Account Information</h2>
@@ -366,7 +366,7 @@ export default function ProfilePage() {
               <div className="space-y-6">
                 <div className="flex items-center space-x-4 p-4 bg-slate-50 rounded-xl">
                   <div className="bg-white p-3 rounded-lg border border-slate-200">
-=======
+
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-slate-900">Account Information</h2>
               {!isEditing ? (
@@ -454,7 +454,7 @@ export default function ProfilePage() {
               <div className="space-y-6">
                 <div className="flex items-center space-x-4 p-4 bg-slate-50 rounded-xl">
                   <div className="bg-white p-3 rounded-lg">
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
                     <User className="w-6 h-6 text-slate-600" />
                   </div>
                   <div className="flex-1">
@@ -464,11 +464,11 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="flex items-center space-x-4 p-4 bg-slate-50 rounded-xl">
-<<<<<<< HEAD
+
                   <div className="bg-white p-3 rounded-lg border border-slate-200">
-=======
+
                   <div className="bg-white p-3 rounded-lg">
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
                     <Mail className="w-6 h-6 text-slate-600" />
                   </div>
                   <div className="flex-1">
@@ -478,35 +478,35 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="flex items-center space-x-4 p-4 bg-slate-50 rounded-xl">
-<<<<<<< HEAD
+
                   <div className="bg-white p-3 rounded-lg border border-slate-200">
-=======
+
                   <div className="bg-white p-3 rounded-lg">
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
                     <Phone className="w-6 h-6 text-slate-600" />
                   </div>
                   <div className="flex-1">
                     <div className="text-sm text-slate-600 mb-1">Phone Number</div>
-<<<<<<< HEAD
+
                     <div className="font-medium text-slate-900">{user?.phone || 'Not verified/provided'}</div>
-=======
+
                     <div className="font-medium text-slate-900">{user?.phone || 'Not provided'}</div>
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-4 p-4 bg-slate-50 rounded-xl">
-<<<<<<< HEAD
+
                   <div className="bg-white p-3 rounded-lg border border-slate-200">
-=======
+
                   <div className="bg-white p-3 rounded-lg">
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
                     <Shield className="w-6 h-6 text-slate-600" />
                   </div>
                   <div className="flex-1">
                     <div className="text-sm text-slate-600 mb-1">KYC Status</div>
                     <div className="flex items-center space-x-2">
-<<<<<<< HEAD
+
                       <span className={`font-semibold capitalize ${user?.kyc_status === 'verified'
                         ? 'text-emerald-600'
                         : user?.kyc_status === 'pending'
@@ -515,7 +515,7 @@ export default function ProfilePage() {
                         {user?.kyc_status}
                       </span>
                       {user?.kyc_status === 'verified' && (<CheckCircle className="w-4 h-4 text-emerald-600" />)}
-=======
+
                       <span className={`font-medium capitalize ${
                         user?.kyc_status === 'verified'
                           ? 'text-emerald-600'
@@ -528,7 +528,7 @@ export default function ProfilePage() {
                       {user?.kyc_status === 'verified' && (
                         <CheckCircle className="w-4 h-4 text-emerald-600" />
                       )}
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
                     </div>
                   </div>
                 </div>
@@ -537,7 +537,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-<<<<<<< HEAD
+
         {/* Security / Password section */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
           <div className="flex items-center justify-between mb-6">
@@ -585,7 +585,7 @@ export default function ProfilePage() {
               <div className="text-sm text-slate-600">Saved Properties</div>
             </div>
             <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl border border-purple-100/50">
-=======
+
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mt-6">
           <h2 className="text-xl font-bold text-slate-900 mb-6">Account Statistics</h2>
           <div className="grid md:grid-cols-3 gap-6">
@@ -598,14 +598,14 @@ export default function ProfilePage() {
               <div className="text-sm text-slate-600">Saved Properties</div>
             </div>
             <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl">
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
               <div className="text-3xl font-bold text-purple-600 mb-2">₹0</div>
               <div className="text-sm text-slate-600">Saved in Fees</div>
             </div>
           </div>
         </div>
       </div>
-<<<<<<< HEAD
+
 
       {/* Change Password Modal */}
       {showPasswordModal && (
@@ -704,8 +704,8 @@ export default function ProfilePage() {
         </div>
       )}
 
-=======
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
+
     </div>
   );
 }

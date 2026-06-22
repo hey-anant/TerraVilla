@@ -1,16 +1,16 @@
-<<<<<<< HEAD
+ HEAD
 import { useState, useEffect } from 'react';
 import { Search, MapPin, Ruler, IndianRupee, Filter, ChevronDown, Phone, Heart, Shield } from 'lucide-react';
 import { formatPriceDisplay } from '../../utils/priceFormatters';
 import { getAllPlots } from '../../utils/plotUtils';
 import { useAuth } from '../../context/AuthContext';
-=======
+
 import { useState } from 'react';
 import { Search, MapPin, Ruler, IndianRupee, Filter, ChevronDown, Phone, Heart, Shield } from 'lucide-react';
 import { formatPriceDisplay } from '../../utils/priceFormatters';
 import { getAllPlots } from '../../utils/plotUtils';
 import { useAuth } from '../../context/useAuth';
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 
 export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -22,7 +22,7 @@ export default function SearchPage() {
   const [showFilters, setShowFilters] = useState(false);
   const { user } = useAuth();
 
-<<<<<<< HEAD
+ HEAD
   const [allPlots, setAllPlots] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -42,29 +42,28 @@ export default function SearchPage() {
 
   const cities = Array.from(new Set(allPlots.map(p => p.city)));
   const states = Array.from(new Set(allPlots.map(p => p.state)));
-=======
+
   const allPlots = getAllPlots().filter(plot => plot.verification_status === 'verified');
 
   const cities = Array.from(new Set(allPlots.map(p => p.city)));
   const states = Array.from(new Set(allPlots.map(p => p.state)));
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
   const filteredPlots = allPlots.filter(plot => {
     const matchesSearch = searchQuery === '' ||
       plot.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       plot.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
       plot.location_address.toLowerCase().includes(searchQuery.toLowerCase());
-<<<<<<< HEAD
-=======
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
+
     const matchesCity = selectedCity === '' || plot.city === selectedCity;
     const matchesState = selectedState === '' || plot.state === selectedState;
     const minPriceInRupees = minPrice === '' ? 0 : Number(minPrice) * 100000;
     const maxPriceInRupees = maxPrice === '' ? Infinity : Number(maxPrice) * 100000;
     const matchesMinPrice = plot.price >= minPriceInRupees;
     const matchesMaxPrice = plot.price <= maxPriceInRupees;
-<<<<<<< HEAD
+ HEAD
     return matchesSearch && matchesCity && matchesState && matchesMinPrice && matchesMaxPrice;
   });
 
@@ -276,7 +275,7 @@ export default function SearchPage() {
       </div>
     </div>)}
   </div>);
-=======
+
 
     return matchesSearch && matchesCity && matchesState && matchesMinPrice && matchesMaxPrice;
   });
@@ -549,5 +548,5 @@ export default function SearchPage() {
       )}
     </div>
   );
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 }

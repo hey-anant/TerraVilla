@@ -1,5 +1,5 @@
 import { ExternalLink } from 'lucide-react';
-<<<<<<< HEAD
+
 const adItems = [
     {
         id: '1',
@@ -39,7 +39,7 @@ const adItems = [
 ];
 export default function AdSidebar() {
     return (<div className="w-full h-full bg-white border-l border-slate-200 overflow-y-auto">
-=======
+
 
 const adItems = [
   {
@@ -82,7 +82,7 @@ const adItems = [
 export default function AdSidebar() {
   return (
     <div className="w-full h-full bg-white border-l border-slate-200 overflow-y-auto">
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
       <div className="sticky top-0 bg-slate-50 border-b border-slate-200 px-3 py-3">
         <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-wide">
           Construction Materials
@@ -90,11 +90,11 @@ export default function AdSidebar() {
       </div>
 
       <div className="space-y-3 p-3">
-<<<<<<< HEAD
+
         {adItems.map((ad) => (<a key={ad.id} href={ad.link} className="block bg-slate-50 rounded-lg overflow-hidden hover:shadow-md transition-all border border-slate-200 hover:border-emerald-300">
             <div className="relative aspect-video">
               <img src={ad.image} alt={ad.title} className="w-full h-full object-cover"/>
-=======
+
         {adItems.map((ad) => (
           <a
             key={ad.id}
@@ -107,7 +107,7 @@ export default function AdSidebar() {
                 alt={ad.title}
                 className="w-full h-full object-cover"
               />
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
               <div className="absolute top-1 right-1 bg-white/90 px-1.5 py-0.5 rounded text-[10px] font-semibold text-emerald-600">
                 Ad
               </div>
@@ -122,18 +122,18 @@ export default function AdSidebar() {
                     {ad.description}
                   </p>
                 </div>
-<<<<<<< HEAD
+
                 <ExternalLink className="w-3 h-3 text-slate-400 flex-shrink-0 mt-0.5"/>
               </div>
             </div>
           </a>))}
-=======
+
                 <ExternalLink className="w-3 h-3 text-slate-400 flex-shrink-0 mt-0.5" />
               </div>
             </div>
           </a>
         ))}
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
       </div>
 
       <div className="border-t border-slate-200 p-3">
@@ -141,10 +141,10 @@ export default function AdSidebar() {
           Advertise with us
         </p>
       </div>
-<<<<<<< HEAD
+
     </div>);
-=======
+
     </div>
   );
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 }

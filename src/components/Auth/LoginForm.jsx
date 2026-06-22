@@ -1,5 +1,5 @@
 import { useState } from 'react';
-<<<<<<< HEAD
+
 import { LogIn, UserPlus, Mail, Lock, User, Phone, CheckCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -426,7 +426,7 @@ export default function LoginForm() {
             </div>
         </div>
     );
-=======
+
 import { LogIn, UserPlus } from 'lucide-react';
 import { useAuth } from '../../context/useAuth';
 
@@ -800,5 +800,5 @@ export default function LoginForm() {
       </div>
     </div>
   );
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 }

@@ -1,13 +1,13 @@
 import { Shield, TrendingDown, FileCheck, Zap, MapPin, BarChart3 } from 'lucide-react';
-<<<<<<< HEAD
+
 export default function LandingPage({ onViewChange }) {
     return (<div className="min-h-screen bg-gradient-to-b from-white to-slate-50">
-=======
+
 
 export default function LandingPage({ onViewChange }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-slate-50">
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
           <div className="inline-block bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-6">

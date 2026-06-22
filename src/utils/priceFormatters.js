@@ -1,5 +1,5 @@
 export const formatPriceInLakhs = (price) => {
-<<<<<<< HEAD
+ HEAD
     const lakhs = price / 100000;
     return lakhs.toFixed(2);
 };
@@ -13,7 +13,7 @@ export const formatPriceDisplay = (price) => {
 };
 export const parseLakhsToRupees = (lakhs) => {
     return lakhs * 100000;
-=======
+
   const lakhs = price / 100000;
   return lakhs.toFixed(2);
 };
@@ -29,5 +29,5 @@ export const formatPriceDisplay = (price) => {
 
 export const parseLakhsToRupees = (lakhs) => {
   return lakhs * 100000;
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 };

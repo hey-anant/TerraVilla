@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import { insforge } from '../lib/insforge';
 
 // Function to fetch all plots
@@ -107,7 +107,7 @@ export const updatePlot = async (plotId, updates) => {
         console.error('Error updating plot:', error);
         throw error;
     }
-=======
+
 import { mockPlots as initialMockPlots } from '../data/mockData';
 
 const initializePlots = () => {
@@ -199,5 +199,5 @@ export const updatePlot = (plotId, updates) => {
 
   savePlots();
   return currentPlots[idx];
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 };

@@ -1,12 +1,12 @@
-<<<<<<< HEAD
+ HEAD
 import { useState, useEffect } from 'react';
 import { Upload, Plus, FileText, CheckCircle, Clock, XCircle, Image, Shield, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-=======
+
 import { useState } from 'react';
 import { Upload, Plus, FileText, CheckCircle, Clock, XCircle, Image, Shield, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../../context/useAuth';
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 import { addNewPlot, getAllPlots, deletePlot, updatePlotStatus, setVerificationStatus } from '../../utils/plotUtils';
 import { formatPriceDisplay, parseLakhsToRupees } from '../../utils/priceFormatters';
 import ListingFeePayment from '../Payment/ListingFeePayment';
@@ -17,12 +17,12 @@ export default function SellerDashboard() {
   const [currentStep, setCurrentStep] = useState(1);
   const [showPayment, setShowPayment] = useState(false);
   const [pendingPlotId, setPendingPlotId] = useState(null);
-<<<<<<< HEAD
+ HEAD
   const [userPlots, setUserPlots] = useState([]);
   const [loadingPlots, setLoadingPlots] = useState(true);
 
-=======
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -46,7 +46,7 @@ export default function SellerDashboard() {
     { type: 'encumbrance_certificate', file: null },
   ]);
 
-<<<<<<< HEAD
+ HEAD
   const [refreshCount, setRefreshCount] = useState(0);
 
   useEffect(() => {
@@ -63,20 +63,20 @@ export default function SellerDashboard() {
     };
     fetchUserPlots();
   }, [user?.id, refreshCount]);
-=======
+
   const userPlots = getAllPlots().filter((plot) => plot.seller_id === user?.id);
   const [, setRefreshCount] = useState(0);
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files || []);
     setPlotImages(prev => [...prev, ...files]);
-<<<<<<< HEAD
+ HEAD
     files.forEach(file => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreviews(prev => [...prev, reader.result]);
-=======
+
 
     files.forEach(file => {
       const reader = new FileReader();
@@ -85,50 +85,45 @@ export default function SellerDashboard() {
         if (typeof result === 'string') {
           setImagePreviews(prev => [...prev, result]);
         }
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
       };
       reader.readAsDataURL(file);
     });
   };
-<<<<<<< HEAD
-=======
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
+
   const removeImage = (index) => {
     setPlotImages(prev => prev.filter((_, i) => i !== index));
     setImagePreviews(prev => prev.filter((_, i) => i !== index));
   };
-<<<<<<< HEAD
-=======
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
+
   const handleDocumentUpload = (index, file) => {
     const newDocuments = [...documents];
     newDocuments[index].file = file;
     setDocuments(newDocuments);
   };
-<<<<<<< HEAD
-=======
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
+
   const verifyOwnership = () => {
     if (formData.owner_name.toLowerCase().trim() === formData.property_owner_name.toLowerCase().trim()) {
       alert('✓ Owner verification successful! Names match.');
       return true;
-<<<<<<< HEAD
+
     }
     else {
-=======
+
     } else {
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
       alert('✗ Owner verification failed! The owner name does not match the property owner name. Please verify the details.');
       return false;
     }
   };
-<<<<<<< HEAD
-=======
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
   const handleNext = () => {
     if (currentStep === 1) {
       if (!formData.owner_name || !formData.owner_aadhaar || !formData.property_owner_name) {
@@ -146,28 +141,27 @@ export default function SellerDashboard() {
     setCurrentStep(prev => prev + 1);
   };
 
-<<<<<<< HEAD
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-=======
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
     if (plotImages.length === 0) {
       alert('Please upload at least one property image');
       return;
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
+
     const uploadedDocs = documents.filter(doc => doc.file !== null);
     if (uploadedDocs.length === 0) {
       alert('Please upload at least one property document');
       return;
     }
-<<<<<<< HEAD
+
     // Create a new plot in db
     try {
       const newPlot = await addNewPlot({
@@ -215,7 +209,7 @@ export default function SellerDashboard() {
         // ignore
       }
     }
-=======
+
 
     const newPlot = addNewPlot({
       seller_id: user?.id || '1',
@@ -260,7 +254,7 @@ export default function SellerDashboard() {
       }
     }
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
     setShowPayment(false);
     setPendingPlotId(null);
     setCurrentStep(1);
@@ -287,10 +281,7 @@ export default function SellerDashboard() {
       { type: 'encumbrance_certificate', file: null },
     ]);
   };
-<<<<<<< HEAD
-=======
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
   const getStatusIcon = (status) => {
     switch (status) {
       case 'verified':
@@ -303,18 +294,18 @@ export default function SellerDashboard() {
         return <Clock className="w-5 h-5 text-slate-400" />;
     }
   };
-<<<<<<< HEAD
+
   const getStatusText = (status) => {
     if (!status) return '';
     return status.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   };
-=======
+
 
   const getStatusText = (status) => {
     return status.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   };
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
   const getDocumentLabel = (type) => {
     const labels = {
       title_deed: 'Title Deed',
@@ -326,7 +317,7 @@ export default function SellerDashboard() {
     };
     return labels[type];
   };
-<<<<<<< HEAD
+
   const handleDelete = async (plotId) => {
     const confirmed = window.confirm('Are you sure you want to delete this listing? This action cannot be undone.');
     if (!confirmed)
@@ -700,7 +691,7 @@ export default function SellerDashboard() {
       setPendingPlotId(null);
     }} />)}
   </div>);
-=======
+
 
   const handleDelete = (plotId) => {
     const confirmed = window.confirm('Are you sure you want to delete this listing? This action cannot be undone.');
@@ -1268,5 +1259,5 @@ export default function SellerDashboard() {
       )}
     </div>
   );
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 }

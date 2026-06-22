@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # TerraVilla Real Estate Platform
 
 TerraVilla is a premium, secure, peer-to-peer land transaction platform designed to enable transparent and direct land deals. It removes the middleman by providing zero broker fees, maximum transparency, automated government record verification checks, and escrow transaction pathways.
@@ -171,7 +171,7 @@ VITE_INSFORGE_ANON_KEY=your-anon-key-here
 
 ### Installation
 Install the required packages:
-=======
+
 # TerraVilla
 
 TerraVilla is a broker-free land marketplace prototype where buyers and sellers can discover, list, and manage property transactions with a modern React UI.
@@ -254,30 +254,30 @@ supabase/
 
 ### Install
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 ```bash
 npm install
 ```
 
-<<<<<<< HEAD
+
 ### Run Locally
 Launch the Vite local development server:
-=======
+
 ### Start Dev Server
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 ```bash
 npm run dev
 ```
 
-<<<<<<< HEAD
+
 ### Build Production Bundle
 To compile and bundle assets for production:
 ```bash
 npm run build
 ```
 The built assets will be exported to the `/dist` directory.
-=======
+
 Open the URL shown in terminal (typically `http://localhost:5173`).
 
 ## Scripts
@@ -304,4 +304,4 @@ To reset app state during testing, clear browser local storage.
 - If you clone fresh, run `npm install` to sync lockfile and dependencies.
 
 
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+

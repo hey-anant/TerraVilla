@@ -1,5 +1,5 @@
 import { LogOut, User, Plus, Search, BarChart3 } from 'lucide-react';
-<<<<<<< HEAD
+
 import { useAuth } from '../context/AuthContext';
 export default function Navbar({ currentView, onViewChange }) {
   const { user, isAuthenticated, logout } = useAuth();
@@ -64,7 +64,7 @@ export default function Navbar({ currentView, onViewChange }) {
       </div>
     </div>
   </nav>);
-=======
+
 import { useAuth } from '../context/useAuth';
 
 export default function Navbar({ currentView, onViewChange }) {
@@ -168,5 +168,4 @@ export default function Navbar({ currentView, onViewChange }) {
       </div>
     </nav>
   );
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
 }

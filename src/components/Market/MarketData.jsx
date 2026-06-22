@@ -1,5 +1,5 @@
 import { TrendingUp, TrendingDown, BarChart3, MapPin } from 'lucide-react';
-<<<<<<< HEAD
+
 import { useState, useEffect } from 'react';
 import { getAllPlots } from '../../utils/plotUtils';
 
@@ -71,7 +71,7 @@ export default function MarketData() {
     };
     fetchData();
   }, []);
-=======
+
 import { mockPriceComparisons } from '../../data/mockData';
 import { getAllPlots } from '../../utils/plotUtils';
 
@@ -80,14 +80,14 @@ export default function MarketData() {
     .filter(plot => plot.status === 'verified')
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     .slice(0, 5);
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 
   const calculateTrend = (avg, min) => {
     const trend = ((avg - min) / min) * 100;
     return trend.toFixed(1);
   };
 
-<<<<<<< HEAD
+
   if (loading) {
     return <div className="min-h-screen bg-slate-50 flex items-center justify-center">Loading Market Data...</div>;
   }
@@ -119,7 +119,7 @@ export default function MarketData() {
             <p className="text-emerald-800 text-sm">
               All prices are based on verified transactions. We show you the complete market picture so you can make informed decisions.
             </p>
-=======
+
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white py-12">
@@ -134,12 +134,12 @@ export default function MarketData() {
                 Real-time price data for transparent land transactions
               </p>
             </div>
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
           </div>
         </div>
       </div>
 
-<<<<<<< HEAD
+
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-slate-900 mb-6">Price Comparisons by Region</h2>
         <div className="grid md:grid-cols-2 gap-6">
@@ -276,7 +276,7 @@ export default function MarketData() {
       </div>
     </div>
   </div>);
-=======
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 mb-8">
           <div className="flex items-start space-x-4">
@@ -443,5 +443,5 @@ export default function MarketData() {
       </div>
     </div>
   );
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
 }

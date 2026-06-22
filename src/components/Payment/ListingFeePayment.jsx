@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CreditCard, CheckCircle, AlertCircle, Shield } from 'lucide-react';
 import { updatePlotStatus, getPlotById } from '../../utils/plotUtils';
-<<<<<<< HEAD
+
 export default function ListingFeePayment({ plotId, onPaymentComplete, onCancel }) {
     const [paymentStatus, setPaymentStatus] = useState('idle');
     const listingFee = 500;
@@ -37,7 +37,7 @@ export default function ListingFeePayment({ plotId, onPaymentComplete, onCancel 
         }
     };
     return (<div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-=======
+
 
 export default function ListingFeePayment({ plotId, onPaymentComplete, onCancel }) {
   const [paymentStatus, setPaymentStatus] = useState('idle');
@@ -79,7 +79,7 @@ export default function ListingFeePayment({ plotId, onPaymentComplete, onCancel 
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
->>>>>>> 5d73c961b8b00a97ccf6a031ed7db878f06aa342
+
       <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
         {paymentStatus === 'idle' && (<>
             <div className="text-center mb-6">
