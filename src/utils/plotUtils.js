@@ -1,13 +1,9 @@
-import { insforge } from '../lib/insforge';
+import { apiRequest } from '../lib/api';
 
 // Function to fetch all plots
 export const getAllPlots = async () => {
     try {
-        const { data, error } = await insforge.database
-            .from('plots')
-            .select('*');
-        if (error) throw error;
-        return data || [];
+        return await apiRequest('/plots');
     } catch (error) {
         console.error('Error fetching plots:', error);
         return [];
@@ -17,13 +13,7 @@ export const getAllPlots = async () => {
 // Function to get a plot by ID
 export const getPlotById = async (plotId) => {
     try {
-        const { data, error } = await insforge.database
-            .from('plots')
-            .select('*')
-            .eq('id', plotId)
-            .maybeSingle();
-        if (error) throw error;
-        return data;
+        return await apiRequest(`/plots/${plotId}`);
     } catch (error) {
         console.error(`Error fetching plot ${plotId}:`, error);
         return null;
@@ -33,16 +23,14 @@ export const getPlotById = async (plotId) => {
 // Function to add a new plot (passing as array according to InsForge insert specifications)
 export const addNewPlot = async (plotData) => {
     try {
-        const { data, error } = await insforge.database
-            .from('plots')
-            .insert([{
+        return await apiRequest('/plots', {
+            method: 'POST',
+            body: JSON.stringify({
                 ...plotData,
                 status: 'pending_verification',
                 verification_status: 'pending'
-            }])
-            .select();
-        if (error) throw error;
-        return data?.[0];
+            })
+        });
     } catch (error) {
         console.error('Error creating plot:', error);
         throw error;
@@ -51,13 +39,10 @@ export const addNewPlot = async (plotData) => {
 
 export const updatePlotStatus = async (plotId, newStatus) => {
     try {
-        const { data, error } = await insforge.database
-            .from('plots')
-            .update({ status: newStatus })
-            .eq('id', plotId)
-            .select();
-        if (error) throw error;
-        return data?.[0];
+        return await apiRequest(`/plots/${plotId}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ status: newStatus })
+        });
     } catch (error) {
         console.error('Error updating plot status:', error);
         throw error;
@@ -66,13 +51,10 @@ export const updatePlotStatus = async (plotId, newStatus) => {
 
 export const setVerificationStatus = async (plotId, newVerificationStatus) => {
     try {
-        const { data, error } = await insforge.database
-            .from('plots')
-            .update({ verification_status: newVerificationStatus })
-            .eq('id', plotId)
-            .select();
-        if (error) throw error;
-        return data?.[0];
+        return await apiRequest(`/plots/${plotId}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ verification_status: newVerificationStatus })
+        });
     } catch (error) {
         console.error('Error setting verification status:', error);
         throw error;
@@ -81,11 +63,7 @@ export const setVerificationStatus = async (plotId, newVerificationStatus) => {
 
 export const deletePlot = async (plotId) => {
     try {
-        const { error } = await insforge.database
-            .from('plots')
-            .delete()
-            .eq('id', plotId);
-        if (error) throw error;
+        await apiRequest(`/plots/${plotId}`, { method: 'DELETE' });
         return true;
     } catch (error) {
         console.error('Error deleting plot:', error);
@@ -95,13 +73,10 @@ export const deletePlot = async (plotId) => {
 
 export const updatePlot = async (plotId, updates) => {
     try {
-        const { data, error } = await insforge.database
-            .from('plots')
-            .update(updates)
-            .eq('id', plotId)
-            .select();
-        if (error) throw error;
-        return data?.[0];
+        return await apiRequest(`/plots/${plotId}`, {
+            method: 'PATCH',
+            body: JSON.stringify(updates)
+        });
     } catch (error) {
         console.error('Error updating plot:', error);
         throw error;

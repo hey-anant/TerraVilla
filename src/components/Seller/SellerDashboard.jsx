@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { addNewPlot, getAllPlots, deletePlot, updatePlotStatus, setVerificationStatus } from '../../utils/plotUtils';
 import { formatPriceDisplay, parseLakhsToRupees } from '../../utils/priceFormatters';
 import ListingFeePayment from '../Payment/ListingFeePayment';
+import { uploadPropertyImages } from '../../utils/imageUpload';
 
 export default function SellerDashboard() {
   const { user } = useAuth();
@@ -114,10 +115,11 @@ export default function SellerDashboard() {
     }
     // Create a new plot in db
     try {
+      const imageResult = await uploadPropertyImages(plotImages);
       const newPlot = await addNewPlot({
         seller_id: user?.id || '1', // Use actual user ID if available
         seller_name: formData.owner_name,
-        seller_phone: user?.phone || '',
+        seller_email: user?.email || '',
         owner_name: formData.owner_name,
         owner_aadhaar: formData.owner_aadhaar,
         property_owner_name: formData.property_owner_name,
@@ -133,7 +135,8 @@ export default function SellerDashboard() {
         area_sqft: Number(formData.area_sqft),
         price: parseLakhsToRupees(Number(formData.price)),
         price_per_sqft: Math.round(parseLakhsToRupees(Number(formData.price)) / Number(formData.area_sqft)),
-        images: imagePreviews,
+        images: imageResult.images.map((image) => image.url),
+        image_ids: imageResult.images.map((image) => image.id),
       });
       setPendingPlotId(newPlot._id || newPlot.id);
       setShowForm(false);
@@ -143,7 +146,7 @@ export default function SellerDashboard() {
     }
   };
   const handlePaymentComplete = () => {
-    alert(`Property listing created successfully!\n\nDetails:\n- ${plotImages.length} images uploaded\n- ${documents.filter(doc => doc.file !== null).length} documents uploaded\n- Owner verified: ${formData.owner_name}\n- Aadhaar: ${formData.owner_aadhaar}\n- Listing fee paid: ₹500\n\nYour listing will be verified through government database and AI checks.`);
+    alert(`Property listing created successfully!\n\nDetails:\n- ${plotImages.length} images uploaded\n- ${documents.filter(doc => doc.file !== null).length} documents uploaded\n- Owner verified: ${formData.owner_name}\n- Listing fee paid: ₹500\n\nYour listing will be verified through government database and AI checks.`);
     // Mark the pending plot as verified after payment
     if (pendingPlotId) {
       try {

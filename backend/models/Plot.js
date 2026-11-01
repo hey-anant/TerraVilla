@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const PlotSchema = new mongoose.Schema({
 	seller_id: { type: String, required: true },
 	seller_name: { type: String, required: true },
-	seller_phone: { type: String, required: true },
+	seller_email: { type: String },
 	owner_name: { type: String, required: true },
 	owner_aadhaar: { type: String },
 	property_owner_name: { type: String },
@@ -25,6 +25,7 @@ const PlotSchema = new mongoose.Schema({
 	verification_status: { type: String, enum: ['unverified', 'pending', 'verified', 'rejected'], default: 'unverified' },
 	blockchain_hash: { type: String },
 	images: [{ type: String }], // Array of image URLs
+	image_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ImageAsset' }],
 }, {
 	timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });

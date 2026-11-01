@@ -1,5 +1,6 @@
 import express from 'express';
 import Plot from '../models/Plot.js';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -25,8 +26,8 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create new plot
-router.post('/', async (req, res) => {
-	const plot = new Plot(req.body);
+router.post('/', requireAuth, async (req, res) => {
+	const plot = new Plot({ ...req.body, seller_id: req.auth.sub });
 	try {
 		const newPlot = await plot.save();
 		res.status(201).json(newPlot);
@@ -36,7 +37,7 @@ router.post('/', async (req, res) => {
 });
 
 // Update a plot
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', requireAuth, async (req, res) => {
 	try {
 		const plot = await Plot.findByIdAndUpdate(
 			req.params.id,
@@ -45,6 +46,16 @@ router.patch('/:id', async (req, res) => {
 		);
 		if (!plot) return res.status(404).json({ message: 'Plot not found' });
 		res.json(plot);
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+});
+
+router.delete('/:id', requireAuth, async (req, res) => {
+	try {
+		const plot = await Plot.findByIdAndDelete(req.params.id);
+		if (!plot) return res.status(404).json({ message: 'Plot not found' });
+		res.status(204).end();
 	} catch (error) {
 		res.status(400).json({ message: error.message });
 	}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, MapPin, Ruler, IndianRupee, Filter, ChevronDown, Phone, Heart, Shield } from 'lucide-react';
+import { Search, MapPin, Ruler, IndianRupee, Filter, ChevronDown, Mail, Heart, Shield } from 'lucide-react';
 import { formatPriceDisplay } from '../../utils/priceFormatters';
 import { getAllPlots } from '../../utils/plotUtils';
 import { useAuth } from '../../context/AuthContext';
@@ -245,9 +245,9 @@ export default function SearchPage() {
                 <div className="font-medium text-slate-900">{selectedPlot.seller_name}</div>
                 <div className="text-sm text-slate-600 mt-1">Verified Seller</div>
               </div>
-              <a href={`tel:${user?.phone || selectedPlot.seller_phone}`} className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:from-emerald-700 hover:to-teal-700 transition-all flex items-center space-x-2">
-                <Phone className="w-5 h-5" />
-                <span>Call Now</span>
+              <a href={`mailto:${selectedPlot.seller_email || user?.email}`} className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:from-emerald-700 hover:to-teal-700 transition-all flex items-center space-x-2">
+                <Mail className="w-5 h-5" />
+                <span>Contact Seller</span>
               </a>
             </div>
           </div>

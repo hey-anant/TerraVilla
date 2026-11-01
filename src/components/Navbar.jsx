@@ -9,7 +9,7 @@ export default function Navbar({ currentView, onViewChange }) {
       <div className="flex justify-between items-center h-16">
         <div className="flex items-center space-x-8">
           <button onClick={() => onViewChange('home')} className="flex items-center space-x-2 font-bold text-xl text-slate-900">
-            <img src="/logo.svg" alt="TerraVilla Logo" className="w-8 h-8 rounded-lg object-cover" />
+            <img src="/logo.png" alt="TerraVilla Logo" className="w-8 h-8 rounded-lg object-cover" />
             <span className="hidden sm:inline">TerraVilla</span>
           </button>
 
